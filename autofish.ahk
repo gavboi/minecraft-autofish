@@ -5,19 +5,29 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ThisTitle := "Minecraft Auto Fisher"
 toggle := 0
+delay := 500
 
 MsgBox, , %ThisTitle%, %A_ScriptName% started... (Ctrl+i for info), 2
 
 ^i:: ; ------------------------------------ info box
 MsgBox, 64, %ThisTitle%,
 (
-Ctrl+f - Toggle automatic fishing
+{Ctrl+f} - Toggle automatic fishing
 Note that subtitles are required: 
 Pause -> Options -> Accessibility Settings -> Show Subtitles: ON
 
-Ctrl+i - Info box (this)
-Ctrl+x - Exit script
+{Ctrl+g} - Change re-cast delay
+Current delay: %delay% ms
+
+{Ctrl+i} - Info box (this)
+{Ctrl+x} - Exit script
 )
+return
+
+^g::
+InputBox, delay, ThisTitle, New delay (ms), , , , , , , , %delay%
+if delay is not number
+	delay := 500
 return
 
 ^x:: ; ------------------------------------ exit script
@@ -49,7 +59,7 @@ while toggle
 		}
 	}
 	Send {RButton}
-	Sleep 500
+	Sleep delay
 }
 return
 
